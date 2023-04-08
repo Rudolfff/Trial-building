@@ -1,19 +1,18 @@
-package entity;
+package com.example.Trialbuilding.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Setter
 @Getter
-public class Order {
+public class OrderLine {
     Long id;
-    String client;
-    Date date;
-    String address;
+    Integer count;
+    Long goods_id;
+    Long order_id;
 }
