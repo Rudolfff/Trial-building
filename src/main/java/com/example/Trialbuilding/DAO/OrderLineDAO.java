@@ -1,11 +1,13 @@
 package com.example.Trialbuilding.DAO;
 
 import com.example.Trialbuilding.entity.OrderLine;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class OrderLineDAO implements Dao<OrderLine> {
 
     List<OrderLine> orders = new ArrayList<>();
@@ -29,7 +31,6 @@ public class OrderLineDAO implements Dao<OrderLine> {
         orders.add(order);
     }
 
-    // как сделать, чтобы и интерфейс реализовать и разные значения передать? Можно просто удалить данный метод из интерфейса
     @Override
     public void update(Object x1, Object x2, Object x3, Object x4) {
 

@@ -25,8 +25,8 @@ public class OrderDAO implements Dao<Order> {
     }
 
     @Override
-    public void save(Order order) {
-        orders.put(id++, order);
+    public Order save(Order order) {
+        return orders.put(id++, order);
     }
 
     @Override
