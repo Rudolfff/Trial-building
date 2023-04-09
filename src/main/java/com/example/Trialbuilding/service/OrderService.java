@@ -29,7 +29,7 @@ public class OrderService {
         return orderDAO.update(id, order);
     }
 
-    public void deleteOrder(Order order) throws Exception {
-        orderDAO.delete(order);
+    public Order deleteOrder(Long id) throws Exception {
+        return orderDAO.delete(orderDAO.get(id).get());
     }
 }

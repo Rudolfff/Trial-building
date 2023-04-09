@@ -26,7 +26,8 @@ public class OrderDAO implements Dao<Order> {
 
     @Override
     public Order save(Order order) {
-        return orders.put(id++, order);
+        order.setId(++id);
+        return orders.put(id, order);
     }
 
     @Override
@@ -43,11 +44,11 @@ public class OrderDAO implements Dao<Order> {
     }
 
     @Override
-    public void delete(Order order) throws Exception {
+    public Order delete(Order order) throws Exception {
         if (!orders.containsValue(order)) {
             throw new Exception("Not find");
         }
-        orders.remove(order.getId());
+        return orders.remove(order.getId());
     }
 
     private void updateCheck(Order order, Order orderUpdate) {

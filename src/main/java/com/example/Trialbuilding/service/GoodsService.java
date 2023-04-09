@@ -24,11 +24,11 @@ public class GoodsService {
         return goodsDAO.save(goods);
     }
 
-    public Goods goodsUpdate(Long id, Goods goods) throws Exception {
+    public Goods updateGoods(Long id, Goods goods) throws Exception {
         return goodsDAO.update(id, goods);
     }
 
-    public void deleteGoods(Goods goods) throws Exception {
-        goodsDAO.delete(goods);
+    public Goods deleteGoods(Long id) throws Exception {
+        return goodsDAO.delete(goodsDAO.get(id).get());
     }
 }

@@ -26,7 +26,8 @@ public class GoodsDAO implements Dao<Goods>{
 
     @Override
     public Goods save(Goods good) {
-        return goods.put(id++, good);
+        good.setId(++id);
+        return goods.put(id, good);
     }
 
     @Override
@@ -43,11 +44,11 @@ public class GoodsDAO implements Dao<Goods>{
     }
 
     @Override
-    public void delete(Goods good) throws Exception {
+    public Goods delete(Goods good) throws Exception {
         if (!goods.containsValue(good)) {
             throw new Exception("Not find");
         }
-        goods.remove(good.getId());
+        return goods.remove(good.getId());
     }
     private void updateCheck(Goods value, Goods goodsUpdate) {
         if (value.getName() != null) {
