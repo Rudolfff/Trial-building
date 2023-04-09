@@ -1,6 +1,7 @@
 package com.example.Trialbuilding.DAO;
 
 import com.example.Trialbuilding.entity.Order;
+import com.example.Trialbuilding.exceptions.ContentNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -31,11 +32,11 @@ public class OrderDAO implements Dao<Order> {
     }
 
     @Override
-    public Order update(Long id, Order order) throws Exception {
+    public Order update(Long id, Order order) throws ContentNotFoundException {
         Optional<Order> optionalOrder = get(id);
         Order orderUpdate = null;
         if (!optionalOrder.isPresent()) {
-            throw new Exception("Not find");
+            throw new ContentNotFoundException("Not found");
         } else {
             orderUpdate = optionalOrder.get();
             updateCheck(order, orderUpdate);
@@ -44,11 +45,11 @@ public class OrderDAO implements Dao<Order> {
     }
 
     @Override
-    public Order delete(Order order) throws Exception {
-        if (!orders.containsValue(order)) {
-            throw new Exception("Not find");
+    public Order delete(Long id) throws ContentNotFoundException {
+        if (!get(id).isPresent()) {
+            throw new ContentNotFoundException("Not found");
         }
-        return orders.remove(order.getId());
+        return orders.remove(id);
     }
 
     private void updateCheck(Order order, Order orderUpdate) {

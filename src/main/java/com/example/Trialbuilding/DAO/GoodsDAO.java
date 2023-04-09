@@ -1,6 +1,7 @@
 package com.example.Trialbuilding.DAO;
 
 import com.example.Trialbuilding.entity.Goods;
+import com.example.Trialbuilding.exceptions.ContentNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -31,11 +32,11 @@ public class GoodsDAO implements Dao<Goods>{
     }
 
     @Override
-    public Goods update(Long id, Goods value) throws Exception {
+    public Goods update(Long id, Goods value) throws ContentNotFoundException {
         Optional<Goods> optionalGoods = get(id);
         Goods goodsUpdate = null;
         if (!optionalGoods.isPresent()) {
-            throw new Exception("Not found");
+            throw new ContentNotFoundException("Not found");
         } else {
             goodsUpdate = optionalGoods.get();
             updateCheck(value, goodsUpdate);
@@ -44,11 +45,11 @@ public class GoodsDAO implements Dao<Goods>{
     }
 
     @Override
-    public Goods delete(Goods good) throws Exception {
-        if (!goods.containsValue(good)) {
-            throw new Exception("Not find");
+    public Goods delete(Long id) throws ContentNotFoundException {
+        if (!get(id).isPresent()) {
+            throw new ContentNotFoundException("Not found");
         }
-        return goods.remove(good.getId());
+        return goods.remove(id);
     }
     private void updateCheck(Goods value, Goods goodsUpdate) {
         if (value.getName() != null) {
