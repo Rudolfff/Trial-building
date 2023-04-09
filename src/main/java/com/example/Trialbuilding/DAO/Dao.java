@@ -12,5 +12,5 @@ public interface Dao<T> {
 
     T update(Long id, T value) throws Exception;
 
-    void delete(T t);
+    void delete(T t) throws Exception;
 }
