@@ -1,8 +1,9 @@
 package com.example.Trialbuilding.service;
 
-import com.example.Trialbuilding.DAO.OrderDAO;
-import com.example.Trialbuilding.entity.Order;
+import com.example.Trialbuilding.DAO.GoodsDAO;
+import com.example.Trialbuilding.entity.Goods;
 import com.example.Trialbuilding.exceptions.ContentNotFoundException;
+import com.example.Trialbuilding.exceptions.NoContentException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,16 +14,18 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class GoodsServiceTest {
 
     @Mock
-    public OrderDAO orderDAO;
+    public GoodsDAO goodsDAO;
 
     @InjectMocks
-    public OrderService orderService;
+    public GoodsService goodsService;
 
     @Before
     public void setup() {
@@ -30,31 +33,41 @@ public class GoodsServiceTest {
     }
 
     @Test
-    public void testMyServiceMethod() throws ContentNotFoundException {
-        Optional<Order> optionalOrder = Optional.of(new Order());
-
+    public void testGetReturnsCorrectValue() throws ContentNotFoundException {
+        Optional<Goods> optionalGoods = Optional.of(new Goods());
         // arrange
-        Mockito.when(orderDAO.get(1L)).thenReturn(optionalOrder);
-
+        Mockito.when(goodsDAO.get(1L)).thenReturn(optionalGoods);
         // act
-        Order result = orderService.getOrder(1L);
-
-        Assert.assertEquals(optionalOrder.get(), result);
-    }
-/*
-    @Test
-    void getAllGoods() {
+        Goods result = goodsService.getGoods(1L);
+        Assert.assertEquals(optionalGoods.get(), result);
     }
 
     @Test
-    void saveGoods() {
+    public void testGetAllGoodsReturnsCorrectValue() throws NoContentException {
+        List<Goods> goodsArrayList = new ArrayList<>();
+        goodsArrayList.add(new Goods());
+        Mockito.when(goodsDAO.getAll()).thenReturn(goodsArrayList);
+        Assert.assertEquals(goodsArrayList, goodsService.getAllGoods());
     }
 
     @Test
-    void updateGoods() {
+    public void testSaveGoodsCorrectValue() {
+        Goods goods = new Goods();
+        Mockito.when(goodsDAO.save(goods)).thenReturn(goods);
+        Assert.assertEquals(goods, goodsService.saveGoods(goods));
     }
 
     @Test
-    void deleteGoods() {
-    }*/
+    public void testUpdateGoodsCorrectValue() throws ContentNotFoundException {
+        Goods goods = new Goods();
+        Mockito.when(goodsDAO.update(0L, goods)).thenReturn(goods);
+        Assert.assertEquals(goods, goodsService.updateGoods(0L, goods));
+    }
+
+    @Test
+    public void testDeleteGoodsCorrectValue() throws ContentNotFoundException {
+        Goods goods = new Goods();
+        Mockito.when(goodsDAO.delete(0L)).thenReturn(goods);
+        Assert.assertEquals(goods, goodsService.deleteGoods(0L));
+    }
 }
