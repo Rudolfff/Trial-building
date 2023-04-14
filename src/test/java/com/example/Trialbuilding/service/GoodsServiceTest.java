@@ -43,6 +43,18 @@ public class GoodsServiceTest {
     }
 
     @Test
+    public void testGetReturnsCorrectException() throws ContentNotFoundException {
+        Optional<Goods> optionalGoods = Optional.ofNullable(null);
+        Mockito.when(goodsDAO.get(1L)).thenReturn(optionalGoods);
+        try {
+            goodsService.getGoods(1L);
+            Assert.fail();
+        } catch (ContentNotFoundException e) {
+            Assert.assertNotNull(e);
+        }
+    }
+
+    @Test
     public void testGetAllGoodsReturnsCorrectValue() throws NoContentException {
         List<Goods> goodsArrayList = new ArrayList<>();
         goodsArrayList.add(new Goods());
