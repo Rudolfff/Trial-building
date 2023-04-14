@@ -31,38 +31,62 @@ public class OrderDAOTest {
     }
 
     @Test
-    public void get() {
+    public void testGetReturnsCorrectValue() {
         Order order = new Order();
         Mockito.when(longOrderMap.get(0L)).thenReturn(order);
         Assert.assertEquals(order, orderDAO.get(0L).get());
     }
 
     @Test
-    public void getAll() {
+    public void testGetAllReturnsCorrectValue() {
         List<Order> orders = new ArrayList<>();
         Mockito.when(longOrderMap.values()).thenReturn(orders);
         Assert.assertEquals(orders, orderDAO.getAll());
     }
 
     @Test
-    public void save() {
+    public void testSaveReturnsCorrectValue() {
         Order order = new Order();
         Mockito.when(longOrderMap.put(0L, order)).thenReturn(order);
         Assert.assertEquals(order, orderDAO.save(order));
     }
 
     @Test
-    public void update() throws ContentNotFoundException {
+    public void testUpdateReturnsCorrectValue() throws ContentNotFoundException {
         Order order = new Order();
         Mockito.when(longOrderMap.get(0L)).thenReturn(order);
         Assert.assertEquals(order, orderDAO.update(0L, order));
     }
 
     @Test
-    public void delete() throws ContentNotFoundException {
+    public void testUpdateReturnsCorrectException() throws ContentNotFoundException {
+        Order order = new Order();
+        Mockito.when(longOrderMap.get(0L)).thenReturn(null);
+        try {
+            orderDAO.update(0L, order);
+            Assert.fail();
+        } catch (ContentNotFoundException e) {
+            Assert.assertNotNull(e);
+        }
+    }
+
+    @Test
+    public void testDeleteReturnsCorrectValue() throws ContentNotFoundException {
         Order order = new Order();
         Mockito.when(longOrderMap.get(0L)).thenReturn(order);
         Mockito.when(longOrderMap.remove(0L)).thenReturn(order);
         Assert.assertEquals(order, orderDAO.delete(0L));
+    }
+
+    @Test
+    public void testDeleteReturnsCorrectException() throws ContentNotFoundException {
+        Order order = new Order();
+        Mockito.when(longOrderMap.get(0L)).thenReturn(null);
+        try {
+            orderDAO.update(0L, order);
+            Assert.fail();
+        } catch (ContentNotFoundException e) {
+            Assert.assertNotNull(e);
+        }
     }
 }

@@ -63,6 +63,18 @@ public class GoodsServiceTest {
     }
 
     @Test
+    public void testGetAllGoodsReturnsException() throws NoContentException {
+        List<Goods> goodsList = new ArrayList<>();
+        Mockito.when(goodsDAO.getAll()).thenReturn(goodsList);
+        try {
+            goodsService.getAllGoods();
+            Assert.fail("Error--");
+        } catch (NoContentException e) {
+            Assert.assertNotNull(e);
+        }
+    }
+
+    @Test
     public void testSaveGoodsCorrectValue() {
         Goods goods = new Goods();
         Mockito.when(goodsDAO.save(goods)).thenReturn(goods);

@@ -38,12 +38,35 @@ public class OrderServiceTest {
         Assert.assertEquals(optionalOrder.get(), orderService.getOrder(0L));
     }
 
+    public void testGetReturnsCorrectException() throws ContentNotFoundException {
+        Optional<Order> optionalOrder = Optional.of(new Order());
+        Mockito.when(orderDAO.get(0L)).thenReturn(optionalOrder);
+        try {
+            orderService.getOrder(0L);
+            Assert.fail();
+        } catch (ContentNotFoundException e) {
+            Assert.assertNotNull(e);
+        }
+    }
+
     @Test
     public void testGetAllOrdersReturnsCorrectValue() throws NoContentException {
         List<Order> orders = new ArrayList<>();
         orders.add(new Order());
         Mockito.when(orderDAO.getAll()).thenReturn(orders);
         Assert.assertEquals(orders, orderService.getAllOrders());
+    }
+
+    @Test
+    public void testGetAllOrdersReturnsCorrectException() throws NoContentException {
+        List<Order> orders = new ArrayList<>();
+        Mockito.when(orderDAO.getAll()).thenReturn(orders);
+        try {
+            orderService.getAllOrders();
+            Assert.fail();
+        } catch (NoContentException e) {
+            Assert.assertNotNull(e);
+        }
     }
 
     @Test

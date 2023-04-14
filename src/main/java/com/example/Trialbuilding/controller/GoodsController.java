@@ -46,8 +46,8 @@ public class GoodsController {
     }
 
     @PostMapping("/add")
-    public Goods addGoods(@RequestBody Goods goods) {
-        return goodsService.saveGoods(goods);
+    public ResponseEntity<Goods> addGoods(@RequestBody Goods goods) {
+        return new ResponseEntity<>(goodsService.saveGoods(goods), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

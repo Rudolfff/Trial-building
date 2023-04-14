@@ -1,50 +1,92 @@
-/*
+
 package com.example.Trialbuilding.DAO;
 
 import com.example.Trialbuilding.entity.Goods;
-import junit.framework.TestCase;
+import com.example.Trialbuilding.exceptions.ContentNotFoundException;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class GoodsDAOTest extends TestCase {
+@RunWith(SpringJUnit4ClassRunner.class)
+public class GoodsDAOTest {
     @Mock
-    private GoodsDAO goodsDAO;
+    private Map<Long, Goods> longGoodsMap;
 
     @InjectMocks
-    private Goods goods;
+    private GoodsDAO goodsDAO;
 
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
-    public void testGet() {
-        Long id = goodsDAO.id;
-        goods = new Goods(++id, "StringTest", 999);
-        goodsDAO.save(goods);
-        Optional<Goods> optionalGoods = Optional.of(goods);
-        Optional<Goods> result = goodsDAO.get(id);
-        assertEquals(result, optionalGoods);
+    public void testGetReturnsCorrectValue() {
+        Goods goods = new Goods();
+        Mockito.when(longGoodsMap.get(0L)).thenReturn(goods);
+        Assert.assertEquals(goods, goodsDAO.get(0L).get());
     }
 
-    @org.junit.jupiter.api.Test
-    void get() {
+    @Test
+    public void testGetAllReturnsCorrectValue() {
+        List<Goods> goodsList = new ArrayList<>();
+        Mockito.when(longGoodsMap.values()).thenReturn(goodsList);
+        Assert.assertEquals(goodsList, goodsDAO.getAll());
     }
 
-    @org.junit.jupiter.api.Test
-    void getAll() {
+    @Test
+    public void testSaveReturnsCorrectValue() {
+        Goods goods = new Goods();
+        Mockito.when(longGoodsMap.put(0L, goods)).thenReturn(goods);
+        Assert.assertEquals(goods, goodsDAO.save(goods));
     }
 
-    @org.junit.jupiter.api.Test
-    void save() {
+    @Test
+    public void testUpdateReturnsCorrectValue() throws ContentNotFoundException {
+        Goods goods = new Goods();
+        Mockito.when(longGoodsMap.get(0L)).thenReturn(goods);
+        Assert.assertEquals(goods, goodsDAO.update(0L, goods));
     }
 
-    @org.junit.jupiter.api.Test
-    void update() {
+    @Test
+    public void testUpdateReturnsCorrectException() throws ContentNotFoundException {
+        Goods goods = new Goods();
+        Mockito.when(longGoodsMap.get(0L)).thenReturn(null);
+        try {
+            goodsDAO.update(0L, goods);
+            Assert.fail();
+        } catch (ContentNotFoundException e) {
+            Assert.assertNotNull(e);
+        }
+    }
+    @Test
+    public void testDeleteReturnsCorrectValue() throws ContentNotFoundException {
+        Goods goods = new Goods();
+        Mockito.when(longGoodsMap.get(0L)).thenReturn(goods);
+        Mockito.when(longGoodsMap.remove(0L)).thenReturn(goods);
+        Assert.assertEquals(goods, goodsDAO.delete(0L));
     }
 
-    @org.junit.jupiter.api.Test
-    void delete() {
+    @Test
+    public void testDeleteReturnsCorrectException() throws ContentNotFoundException {
+        Goods goods = new Goods();
+        Mockito.when(longGoodsMap.get(0L)).thenReturn(null);
+        try {
+            goodsDAO.update(0L, goods);
+            Assert.fail();
+        } catch (ContentNotFoundException e) {
+            Assert.assertNotNull(e);
+        }
     }
 }
-*/
+
